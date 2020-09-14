@@ -1,3 +1,5 @@
+[![CRAN](https://www.r-pkg.org/badges/version/patrick)](https://cran.r-project.org/package=patrick)
+
 # Introducing patrick
 
 This package is an extension to `testthat` that enables parameterized unit
@@ -5,7 +7,15 @@ testing in R.
 
 ## Installing
 
-`patrick` is currently only available on GitHub. Install it using `devtools`.
+The release version of `patrick` is available on CRAN. Install it in the usual
+manner:
+
+```
+install.packages("patrick")
+```
+
+The development version of `patrick` is currently only available on GitHub.
+Install it using `devtools`.
 
 ```
 devtools::install_github("google/patrick")
@@ -58,7 +68,7 @@ during package checks. Each executes independently and then your test report
 will produce a single report. A complete name for each test will be formed using
 the initial test description and the strings in the `test_name` parameter.
 
-Small sets of cases can be reasonably passed a parameters to
+Small sets of cases can be reasonably passed as parameters to
 `with_parameters_test_that`. This becomes less readable when the number of cases
 increases. To help mitigate this issue, `patrick` provides a case generator
 helper function.
@@ -83,8 +93,9 @@ in Python.
 
 ## Contributing
 
-Please read the [`CONTRIBUTING.md`](CONTRIBUTING.md) for details on how to
-contribute to this project.
+Please read the
+[`CONTRIBUTING.md`](https://github.com/google/patrick/blob/master/CONTRIBUTING.md)
+for details on how to contribute to this project.
 
 ## Disclaimer
 
