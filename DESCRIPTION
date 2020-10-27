@@ -1,8 +1,11 @@
 Package: patrick
 Title: Parameterized Unit Testing
-Version: 0.0.2
-Author: Michael Quinn <msquinn@google.com>
-Maintainer: Michael Quinn <msquinn@google.com>
+Version: 0.0.3
+Authors@R: 
+    person(given = "Michael",
+           family = "Quinn",
+           role = c("aut", "cre"),
+           email = "msquinn@google.com")
 Description: This is an extension of the 'testthat' package that
     lets you add parameters to your unit tests. Parameterized unit tests
     are often easier to read and more reliable, since they follow the DNRY
@@ -15,6 +18,8 @@ Imports: dplyr, purrr, rlang, testthat, tibble
 Encoding: UTF-8
 RoxygenNote: 7.1.1
 NeedsCompilation: no
-Packaged: 2020-09-14 18:12:47 UTC; msquinn
+Packaged: 2020-10-27 18:23:21 UTC; msquinn
+Author: Michael Quinn [aut, cre]
+Maintainer: Michael Quinn <msquinn@google.com>
 Repository: CRAN
-Date/Publication: 2020-09-14 18:20:03 UTC
+Date/Publication: 2020-10-27 18:50:03 UTC

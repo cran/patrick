@@ -5,7 +5,7 @@
 \alias{cases}
 \title{Execute a test with parameters.}
 \usage{
-with_parameters_test_that(desc_stub, code, .cases = NULL, ...)
+with_parameters_test_that(desc_stub, code, ..., .cases = NULL)
 
 cases(...)
 }
@@ -15,9 +15,9 @@ parameterized tests.}
 
 \item{code}{Test code containing expectations.}
 
-\item{.cases}{A data frame where each row contains test parameters.}
-
 \item{...}{Named arguments of test parameters.}
+
+\item{.cases}{A data frame where each row contains test parameters.}
 }
 \description{
 This function is an extension of [testthat::test_that()] that lets you pass
@@ -58,5 +58,23 @@ with_parameters_test_that(
     cos = list(expr = cos(pi / 4), numeric_value = 1 / sqrt(2)),
     tan = list(expr = tan(pi / 4), numeric_value = 1)
   )
+)
+
+# Or, pass a dataframe of cases, perhaps using a helper function
+make_cases <- function() {
+  tibble::tribble(
+    ~ test_name, ~ expr,      ~ numeric_value,
+    "sin",       sin(pi / 4),     1 / sqrt(2),
+    "cos",       cos(pi / 4),     1 / sqrt(2),
+    "tan",       tan(pi / 4),     1
+  )
+}
+
+with_parameters_test_that(
+  "trigonometric functions match identities",
+  {
+    testthat::expect_equal(expr, numeric_value)
+  },
+  .cases = make_cases()
 )
 }
