@@ -15,21 +15,22 @@
 with_parameters_test_that(
   "Running tests:",
   {
-    if (test_name == "success") {
+    if (test_outcome == "success") {
       testthat::expect_success(testthat::expect_true(case))
     } else {
       failure_message <- "`case` (isn't true|is not TRUE)"
       testthat::expect_failure(testthat::expect_true(case), failure_message)
     }
   },
-  test_name = c("success", "fail", "null"),
+  test_outcome = c("success", "fail", "null"),
   case = list(TRUE, FALSE, NULL),
+  .test_name = c("success", "fail", "null")
 )
 
 with_parameters_test_that(
   "Names are added",
   {
-    testthat::expect_true(test_name == "")
+    testthat::expect_true(.test_name == "")
   },
   case = TRUE
 )
@@ -52,7 +53,7 @@ with_parameters_test_that(
     testthat::expect_equal(result, out)
   },
   .cases = tibble::tribble(
-    ~test_name, ~FUN, ~input, ~out,
+    ~.test_name, ~FUN, ~input, ~out,
     "times", ~ .x * 2, 2, 4,
     "plus", ~ .x + 3, 3, 6
   )
@@ -114,4 +115,32 @@ test_that("patrick reports the correct line numbers", {
     ))
   })
   expect_equal(lines, c(3, 3))
+})
+
+test_that('patrick gives a deprecation warning for "test_name"', {
+  testthat::expect_warning(
+    with_parameters_test_that(
+      "Warn about `test_name` argument:",
+      {
+        testthat::expect_true(truth)
+      },
+      truth = TRUE,
+      test_name = "true"
+    ),
+    regexp = "deprecated"
+  )
+
+    testthat::expect_warning(
+    with_parameters_test_that(
+      "Warn about `test_name` column:",
+      {
+        testthat::expect_true(truth)
+      },
+      .cases = tibble::tribble(
+        ~test_name, ~truth,
+        "true", TRUE
+      )
+    ),
+    regexp = "deprecated"
+  )
 })
