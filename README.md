@@ -1,4 +1,7 @@
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/google/patrick/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/google/patrick/actions/workflows/R-CMD-check.yaml)
 [![CRAN](https://www.r-pkg.org/badges/version/patrick)](https://cran.r-project.org/package=patrick)
+<!-- badges: end -->
 
 # Introducing patrick
 
@@ -27,8 +30,6 @@ To use `patrick` as a testing tool within your package, add it to your list of
 ```
 Suggests:
     patrick
-Remotes:
-    google/patrick
 ```
 
 ## Use
@@ -38,12 +39,12 @@ Many packages within R employ the following pattern when writing tests:
 ```
 test_that("Data is a successfully converted: numeric", {
   input <- convert(numeric_data)
-  expect_is(input, "numeric")
+  expect_type(input, "double")
 })
 
 test_that("Data is a successfully converted: character", {
   input <- convert(character_data)
-  expect_is(input, "character")
+  expect_type(input, "character")
 })
 ```
 
@@ -54,10 +55,10 @@ yourself). `patrick` eliminates this problem by creating test parameters.
 ```
 with_parameters_test_that("Data is successfully converted:", {
     input <- convert(test_data)
-    expect_is(input, type)
+    expect_type(input, type)
   },
   test_data = list(numeric_data, character_data),
-  type = c("numeric", "character"),
+  type = c("double", "character"),
   .test_name = type
 )
 ```
@@ -76,10 +77,10 @@ helper function.
 ```
 with_parameters_test_that("Data is successfully converted:", {
     input <- convert(test_data)
-    expect_is(input, type)
+    expect_type(input, type)
   },
   cases(
-    numeric = list(test_data = numeric_data, type = "numeric"),
+    double = list(test_data = numeric_data, type = "double"),
     character = list(test_data = character_data, type = "character")
   )
 )
@@ -106,6 +107,9 @@ with_parameters_test_that(
   .cases = make_cases()
 )
 ```
+
+If you don't provide test names when generating cases, `patrick` will generate
+them automatically from the test data.
 
 ## Inspiration
 

@@ -1,6 +1,6 @@
 Package: patrick
 Title: Parameterized Unit Testing
-Version: 0.1.0
+Version: 0.2.0
 Authors@R: 
     person(given = "Michael",
            family = "Quinn",
@@ -17,10 +17,10 @@ Depends: R (>= 3.1)
 Imports: dplyr, purrr, rlang, testthat, tibble
 Config/testthat/edition: 3
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
 NeedsCompilation: no
-Packaged: 2021-10-11 21:18:35 UTC; msquinn
+Packaged: 2022-10-13 17:57:59 UTC; msquinn
 Author: Michael Quinn [aut, cre]
 Maintainer: Michael Quinn <msquinn@google.com>
 Repository: CRAN
-Date/Publication: 2021-10-11 21:30:02 UTC
+Date/Publication: 2022-10-13 18:20:02 UTC
