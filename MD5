@@ -1,10 +1,10 @@
-96a320cf9df0a492e0a5e2145d59b2c3 *DESCRIPTION
-5f9919c074c95379b6a0452548df0c85 *NAMESPACE
-8d2b469e0e61be64406048b32dbb6574 *NEWS.md
-9be6aceab5e8945d9d7a60a76d03ea0c *R/patrick-package.R
-4069db640727fe731280becd39407e6a *R/with_parameters.R
+2854c640570893d26774fc3f3acd585c *DESCRIPTION
+3fb4f91fce2285fd5909b47168cea716 *NAMESPACE
+b6c8c2c51fedfd97040bd98c7a4e8631 *NEWS.md
+3f7abde6518c69756e321a1dd50b6b03 *R/patrick-package.R
+32c6ecbb160ac3733f9c94950e291cfb *R/with_parameters.R
 cf844cdc477e0841a844b8084c74d9f8 *README.md
 e4a94b744bf21e12e7be4b346916b268 *man/patrick-package.Rd
 be939f8d5b1a4c7789587afec1b7eaa9 *man/with_parameters_test_that.Rd
 7d396051ec7db71be954bcac78dcd191 *tests/testthat.R
-e52a116bb049a9781dc03f64d62f6b73 *tests/testthat/test-with_parameters.R
+d84ac6c9ca873f9a2f77904582263500 *tests/testthat/test-with_parameters.R

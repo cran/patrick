@@ -118,23 +118,23 @@ with_parameters_test_that <- function(desc_stub,
     !is.na(.interpret_glue)
   )
   if (is.null(.cases)) {
-    pars <- tibble::tibble(...)
-    possibly_add_column <- purrr::possibly(tibble::add_column, otherwise = pars)
+    pars <- tibble(...)
+    possibly_add_column <- possibly(add_column, otherwise = pars)
     all_pars <- possibly_add_column(pars, .test_name = .test_name)
   } else {
     all_pars <- .cases
   }
-  # TODO: drop this once downstream users upgrade their version of patrick.
+  # TODO(#33): deprecate & remove this branch
   if ("test_name" %in% names(all_pars)) {
     msg <- paste(
       'The argument and cases column "test_name" is deprecated. Please use the',
       "new `.test_name` argument instead. See `?with_parameters_test_that`",
       "for more information"
     )
-    rlang::warn(msg, class = "patrick_test_name_deprecation")
+    warn(msg, class = "patrick_test_name_deprecation")
     # It would be nicer to do this with rename(), but that function doesn't
     # support overwriting existing columns.
-    all_pars <- dplyr::mutate(
+    all_pars <- mutate(
       all_pars,
       .test_name = .data$test_name,
       test_name = NULL
@@ -143,8 +143,8 @@ with_parameters_test_that <- function(desc_stub,
   if (!".test_name" %in% names(all_pars)) {
     all_pars$.test_name <- build_test_names(all_pars)
   }
-  captured <- rlang::enquo(code)
-  purrr::pmap(
+  captured <- enquo(code)
+  pmap(
     all_pars,
     build_and_run_test,
     desc = desc_stub,
@@ -162,22 +162,24 @@ with_parameters_test_that <- function(desc_stub,
 #' @noRd
 build_test_names <- function(all_cases) {
   case_names <- names(all_cases)
-  purrr::pmap_chr(all_cases, build_label, case_names = case_names)
+  pmap_chr(all_cases, build_label, case_names = case_names)
 }
 
 build_label <- function(..., case_names) {
-  row <- format(list(...))
-  toString(sprintf("%s=%s", case_names, row))
+  case_row <- format(list(...))
+  toString(sprintf("%s=%s", case_names, case_row))
 }
 
 build_description <- function(args, desc, .test_name, .interpret_glue) {
   if (.interpret_glue) {
     completed_desc <- tryCatch(glue_data(args, desc), error = identity)
     if (inherits(completed_desc, "error")) {
-      rlang::abort(sprintf(
+      abort(sprintf(
         paste(
-          "Attempt to interpret test stub '%s' with glue failed with error:\n%s\n\n",
-          "Set .interpret_glue=FALSE if this test name does not use glue."
+          "Attempt to interpret test stub '%s' with glue failed with error:",
+          "%s", "",
+          "Set .interpret_glue=FALSE if this test name does not use glue.",
+          sep = "\n"
         ),
         # indent for clarity (the purrr error has similar mark-up)
         desc, gsub("(^|\n)", "\\1  ", conditionMessage(completed_desc))
@@ -190,7 +192,7 @@ build_description <- function(args, desc, .test_name, .interpret_glue) {
   if (desc_n != 1L || completed_desc == desc) {
     completed_desc <- paste(desc, .test_name)
     if (desc_n != 1L) {
-      rlang::warn(
+      warn(
         paste("glue_data() on desc= produced output of length", desc_n)
       )
     } else if (.interpret_glue) {
@@ -200,13 +202,16 @@ build_description <- function(args, desc, .test_name, .interpret_glue) {
   completed_desc
 }
 
-build_and_run_test <- function(..., .test_name, desc, code, env, .interpret_glue) {
-  args <- list(..., .test_name = .test_name)
-  completed_desc <- build_description(args, desc, .test_name, .interpret_glue)
+build_and_run_test <- function(
+  ..., .test_name, desc, code, env, .interpret_glue
+) {
+  test_args <- list(..., .test_name = .test_name)
+  completed_desc <-
+    build_description(test_args, desc, .test_name, .interpret_glue)
 
   withCallingHandlers(
-    test_that(completed_desc, rlang::eval_tidy(code, args)),
-    testthat_braces_warning = rlang::cnd_muffle
+    test_that(completed_desc, eval_tidy(code, test_args)),
+    testthat_braces_warning = cnd_muffle
   )
 }
 
@@ -214,8 +219,8 @@ build_and_run_test <- function(..., .test_name, desc, code, env, .interpret_glue
 #' @export
 cases <- function(...) {
   all_cases <- list(...)
-  nested <- purrr::modify_depth(all_cases, 2L, list)
-  dplyr::bind_rows(
+  nested <- modify_depth(all_cases, 2L, list)
+  bind_rows(
     nested,
     .id = if (!is.null(names(nested))) ".test_name"
   )
